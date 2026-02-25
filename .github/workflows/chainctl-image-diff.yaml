@@ -1,9 +1,9 @@
-name: Chainctl Image Diff
+name: Digestabot and Image Diff
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * 0"
+    - cron: "0 0 0 0 0"
 
 permissions:
   contents: read
@@ -16,8 +16,8 @@ env:
   #   chainctl iam account-associations describe YOUR_ORG -o json | jq -r '.[].chainguard.service_bindings.CATALOG_SYNCER'
   #   chainctl iam account-associations describe YOUR_ORG -o json | jq -r '.[].chainguard.service_bindings.APKO_BUILDER'
   #
-  catalog_syncer: 720909c9f5279097d847ad02a2f24ba8f59de36a/6cfb09d006f29ece
-  apko_builder: 720909c9f5279097d847ad02a2f24ba8f59de36a/a9e14125ba29b4f8
+  catalog_syncer: 9188682cf9821b6157bb8a00d8376efc4a2933e3/24953c0de62056e6
+  apko_builder: 9188682cf9821b6157bb8a00d8376efc4a2933e3/d43a113d8645c826
 
 jobs:
   chainctl-image-diff:
@@ -30,24 +30,17 @@ jobs:
       id-token: write
 
     steps:
-    - name: Harden the runner (Audit all outbound calls)
-      uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
-      with:
-        egress-policy: audit
-
     - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
 
     # Install chainctl. Configure auth with the id of an assumed identity.
     #
     # You can create an assumed identity for a Github workflow running on a
     # given branch like:
-    #   chainctl iam identities create github my-gha-identity \
-    #     --github-repo=my-org/repo-name \
-    #     --github-ref=refs/heads/main \
-    #     --role=viewer
+    #   chainctl iam identities create github <my-gha-identity> --github-repo=<my-org/repo-name> --github-ref=refs/heads/main --role=viewer
+    #   chainctl iam identities create github andrewd-cg-digestabot-examples --github-repo=andrewd-cg/digestabot-examples --github-ref=refs/heads/main --role=viewer
     - uses: chainguard-dev/setup-chainctl@be0acd273acf04bfdf91f51198327e719f6af978 # v0.4.0
       with:
-        identity: "326bcde5903252f3ae2fe01c691b5a50f7046b5d/10275f9d35604b8e"
+        identity: "9188682cf9821b6157bb8a00d8376efc4a2933e3/71bb3f6bc22f7e6d
 
     # Install grype. It's required by chainctl image diff.
     - uses: anchore/scan-action/download-grype@3aaf50d765cfcceafa51d322ccb790e40f6cd8c5 # v6.1.0
@@ -56,7 +49,7 @@ jobs:
     # Install cosign. We'll use this to verify image signatures.
     - uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
 
-    # Run digestabot. Don't create the PR.
+    # Run digestabot and get the list of updated images. We won't create a PR for these updates, but we'll use the output to run `chainctl image diff` and determine which updates resolve vulnerabilities.
     - uses: chainguard-dev/digestabot@a3b776c1ca57d3127c85578cde8fef6eed3c75d3 # v1.2.3
       id: digestabot
       with:

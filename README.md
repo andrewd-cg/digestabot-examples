@@ -1,7 +1,7 @@
 # digestabot-examples
 
 This repository contains examples of Github Actions workflows that extend the
-functionality of `digestabot` for different use cases.
+functionality of [https://github.com/chainguard-dev/digestabot](digestabot) for different use cases.
 
 You can see the workflows in [`./.github/workflows`](.github/workflows).
 
@@ -9,7 +9,7 @@ The workflows create Pull Requests in this repository.
 
 ## Digestabot
 
-Demonstrates the straightforward usage of `digestabot`.
+Demonstrates the usage of [https://github.com/chainguard-dev/digestabot](digestabot).
 
 ## Chainctl Image Diff
 
