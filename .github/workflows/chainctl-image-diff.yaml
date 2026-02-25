@@ -40,7 +40,7 @@ jobs:
     #   chainctl iam identities create github andrewd-cg-digestabot-examples --github-repo=andrewd-cg/digestabot-examples --github-ref=refs/heads/main --role=viewer
     - uses: chainguard-dev/setup-chainctl@be0acd273acf04bfdf91f51198327e719f6af978 # v0.4.0
       with:
-        identity: "9188682cf9821b6157bb8a00d8376efc4a2933e3/71bb3f6bc22f7e6d
+        identity: "9188682cf9821b6157bb8a00d8376efc4a2933e3/71bb3f6bc22f7e6d"
 
     # Install grype. It's required by chainctl image diff.
     - uses: anchore/scan-action/download-grype@3aaf50d765cfcceafa51d322ccb790e40f6cd8c5 # v6.1.0
@@ -72,7 +72,7 @@ jobs:
         echo 'body<<EOF' >> "${GITHUB_OUTPUT}"
 
         # Include the grype binary in the path
-        export PATH="$(dirname "${{steps.download_grype.outputs.cmd}}"):${PATH}"
+        export PATH="$(dirname '${{steps.download_grype.outputs.cmd}}'):${PATH}"
 
         while read -r item; do
            from_image=$(jq -r '.image + "@" + .digest' <<<$item)
