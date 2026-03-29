@@ -1,4 +1,4 @@
-FROM cgr.dev/chainguard/python:latest@sha256:f6787bd56ad48a1afb89f229ada27195fd2b66942b7470a357604fbb655f1ba3
+FROM cgr.dev/chainguard/python:latest@sha256:af9f881767681598970f2d4316ffe1f42abcb0413282b555bf7ce9b0774a7c79
 
 WORKDIR /app
 
