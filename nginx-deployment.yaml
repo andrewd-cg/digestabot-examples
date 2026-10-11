@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: cgr.dev/chainguard/nginx:latest@sha256:d5b9daa0f96c23e62412ffe80d6de0b507f406fe6568b90eecc6c5dbbed59a3d
+        image: cgr.dev/chainguard/nginx:latest@sha256:028368a7e271b3e0aed3bdc82195de6b38a2fee2bdd2a0b7ce1c4b944907098c
         ports:
         - containerPort: 80
         resources:
